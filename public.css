@@ -1,0 +1,27 @@
+/* ===== public stil ===== */
+.public-container {
+    width: 720px;
+    padding: 20px;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    background: #111;
+    text-align: center;
+    color: #d4af37;
+    margin: 50px auto;
+}
+
+.public-container h1 {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.public-container h2 {
+    font-size: 24px;
+    margin: 10px 0 20px 0;
+}
+
+#video {
+    width: 100%;
+    height: 400px;
+    background: #000;
+}

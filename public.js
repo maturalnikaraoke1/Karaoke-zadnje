@@ -1,12 +1,11 @@
 const API_KEY = "AIzaSyBMNIx8X3XmR_gMrTIrX-0NL5NQSDEPDKU";
 let player;
-let currentSong = null;
 
 function onYouTubeIframeAPIReady() {
-    loadPublic();
+    loadVideo();
 }
 
-async function loadPublic() {
+async function loadVideo() {
     const current = JSON.parse(localStorage.getItem("current"));
     const list = JSON.parse(localStorage.getItem("playlist")) || [];
 
@@ -18,24 +17,18 @@ async function loadPublic() {
 
     if (!current) return;
 
-    if (current.song !== currentSong) {
-        currentSong = current.song;
+    const videoId = await getVideoId(current.song);
 
-        const videoId = await getVideoId(current.song);
-
-        if (!player) {
-            player = new YT.Player("video", {
-                height: "400",
-                width: "100%",
-                videoId: videoId,
-                playerVars: {
-                    autoplay: 1,
-                    controls: 0
-                }
-            });
-        } else {
-            player.loadVideoById(videoId);
-        }
+    // Kreiraj player ako ne postoji
+    if (!player) {
+        player = new YT.Player("video", {
+            height: "400",
+            width: "100%",
+            videoId: videoId,
+            playerVars: { autoplay: 1, controls: 0 }
+        });
+    } else {
+        player.loadVideoById(videoId);
     }
 }
 
@@ -48,9 +41,9 @@ async function getVideoId(song) {
     return d.items[0].id.videoId;
 }
 
-// update samo kad se promijeni current
+// Kad admin klikne next, current se promijeni u localStorage
+// Public prati promjenu preko storage event
 window.addEventListener("storage", () => {
-    loadPublic();
+    loadVideo();
 });
 
-loadPublic();
